@@ -51,7 +51,6 @@ if(window!=top){
 <script type="text/javascript">
 $(function() {
 	$('#userName').focus();
-	alert("测试");
 	
 	$('#userID').validatebox({
         required: true,

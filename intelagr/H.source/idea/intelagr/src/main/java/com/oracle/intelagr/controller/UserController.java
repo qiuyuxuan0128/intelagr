@@ -126,6 +126,7 @@ public class UserController {
         map.put("user",user);
         return "/user/basicInfoEdit";
     }
+
     @RequestMapping("/update")
     @ResponseBody
     public JsonResult update(User user,HttpServletRequest request){
