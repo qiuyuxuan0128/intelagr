@@ -67,7 +67,6 @@ function save()
 	var roleCode = $("#roleCode").val();
 	$("#saveBt").linkbutton("disable");
 	$("#cancalBt").linkbutton("disable");
-	alert(JSON.stringify(funIds));
 	showLoading();
  	$.ajax({
 		url:"${pageContext.request.contextPath}/role/saveRoleAuth",

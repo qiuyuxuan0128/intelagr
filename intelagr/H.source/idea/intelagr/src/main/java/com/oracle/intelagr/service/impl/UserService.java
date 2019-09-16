@@ -24,7 +24,7 @@ public class UserService implements IUserService{
     private UserMapper userMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
-    @Override
+
     public List<User> login(User user) {
         Map<String,Object> map= new HashMap<String,Object>();
         map.put("userID", user.getUserID());
@@ -33,7 +33,6 @@ public class UserService implements IUserService{
         return list;
     }
 
-    @Override
     public List<Map> getFunction(String userID) {
         User user = userMapper.selectById(userID);
         List<Map> list = new ArrayList<Map>();
@@ -60,7 +59,7 @@ public class UserService implements IUserService{
         return list;
     }
 
-    @Override
+
     public void queryForPage(PageModel pageModel) {
         Map map = (Map)pageModel.getData();
         map.put("index",(pageModel.getPage()-1)*pageModel.getPageSize());
@@ -70,7 +69,7 @@ public class UserService implements IUserService{
         pageModel.setResult(list);
     }
 
-    @Override
+
     @Transactional
     public void save(User user) {
         user.setPassword(MD5Util.getMD5Code(user.getPassword()));
@@ -91,17 +90,17 @@ public class UserService implements IUserService{
 
     }
 
-    @Override
+
     public User selectById(String userID) {
         return userMapper.selectById(userID);
     }
 
-    @Override
+
     public void update(User user) {
         userMapper.update(user);
     }
 
-    @Override
+
     @Transactional
     public void delete(String userID) {
         User user = userMapper.selectById(userID);
@@ -110,7 +109,7 @@ public class UserService implements IUserService{
         userRoleMapper.delete(userID);
     }
 
-    @Override
+
     @Transactional
     public void delete(String[] userIDs) {
         if(userIDs!=null){
@@ -123,17 +122,16 @@ public class UserService implements IUserService{
         }
     }
 
-    @Override
     public void resetPwd(String userID, String password) {
 
     }
 
-    @Override
+
     public void startUse(String userID) {
 
     }
 
-    @Override
+
     public void endUse(String userID) {
 
     }
