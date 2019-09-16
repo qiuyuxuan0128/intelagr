@@ -7,18 +7,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/landChange")
 public class LandChangeController {
     @RequestMapping("/editInput")
-    public void editInput(){
+    public String editInput(){
 
+        return "landchange/landChangeEdit";
     }
 
     @RequestMapping("/list")
-    public void list(){
+    public String list(){
 
+        return "landchange/landChangeList";
     }
 
-    @RequestMapping("/listQuery")
-    public void listQuery(){
-        
+    @RequestMapping("/listquery")
+    public String listQuery(){
+
+        return "landchange/landChangeListQuery";
     }
 
 }
