@@ -14,7 +14,6 @@ import com.oracle.intelagr.service.IServialNumService;
 public class ServialNumService implements IServialNumService{
 	@Autowired
 	private ServialNumMapper servailNumMapper;
-	@Override
 	public String getServialNum(String type) {
 		List<ServialNum> list = servailNumMapper.select();
 		ServialNum servialNum = list.get(0);
