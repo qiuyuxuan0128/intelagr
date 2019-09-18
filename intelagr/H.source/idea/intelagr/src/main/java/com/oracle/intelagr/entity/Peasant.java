@@ -27,7 +27,7 @@ public class Peasant
 	private String townCode;
 	//所在村编码
 	private String countryCode;
-	//所在村编码
+	//所在屯的名字
 	private String groupName;
 	//邮政编码
 	private String contractorZipcode;

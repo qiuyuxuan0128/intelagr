@@ -14,7 +14,6 @@ import com.oracle.intelagr.service.ICommonDataService;
 public class CommonDataService implements ICommonDataService {
 	@Autowired
 	private CommonDataMapper commonDataMapper;
-	@Override
 	public CommonData getCommonData(String codeKey,String codeCode) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("codeKey", codeKey);
@@ -25,7 +24,7 @@ public class CommonDataService implements ICommonDataService {
 		}
 		return new CommonData();
 	}
-	@Override
+
 	public List<CommonData> getCommonDataListByCodeKey(String codeKey) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("codeKey", codeKey);

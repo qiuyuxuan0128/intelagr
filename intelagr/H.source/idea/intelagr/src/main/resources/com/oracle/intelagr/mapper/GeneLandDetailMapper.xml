@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.intelagr.mapper.GeneLandDetailMapper">
+	<resultMap type="GeneLandDetail" id="GeneLandDetailMap">
+		<id column="id" property="id" />
+		<result column="HID" property="hid" />
+		<result column="LandType" property="landType" />
+		<result column="ActualMu" property="actualMu" />
+		<result column="MeasurementMu" property="measurementMu" />
+		<result column="LandClass" property="landClass" />
+		<result column="LandName" property="landName" />
+		<result column="CityCode" property="cityCode" />
+		<result column="TownCode" property="townCode" />
+		<result column="CountryCode" property="countryCode" />
+		<result column="GroupName" property="groupName" />
+		<result column="landTypeName" property="landTypeName" />
+		<result column="landClassName" property="landClassName" />
+	</resultMap>
+	<select id="select" resultMap="GeneLandDetailMap" parameterType="java.util.Map">
+		select * from b_generallanddetails
+	</select>
+
+</mapper>

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html style="width:100%;height:100%;overflow:hidden">
 <head>
@@ -38,7 +39,7 @@
 				 <!-- 联系方式 -->
 				 <input type="hidden" name="contractorTelTmp" id="contractorTelTmp" value="">
 				 
-				 <input type="hidden" id="applyBatchNo" name="applyBatchNo" value="PT20170521000003"/>
+				 <input type="hidden" id="applyBatchNo" name="applyBatchNo" value="${servialNum}"/>
 				 <input type="hidden" name="townCode" value="1">
 				 <input type="hidden" name="countryCode" value="2">
 				 <input type="hidden" name="groupName" value="3">
@@ -48,7 +49,7 @@
 				<tr>
 					<td class="table_common_td_label_style">申请批次号：</td>
 					<td class="table_common_td_txt_style">
-						PT20170521000003
+						${servialNum}
 					</td>
 				</tr>
 				<tr>
@@ -309,7 +310,22 @@
 				</tr>
 			</thead>
 			<tbody id="dataBody">
-						
+			<c:forEach items="${regDList}" var="regd">
+				<tr>
+					<td>${regd.contractorType}</td>
+					<td>${regd.idType}</td>
+					<td>${regd.contractorID}</td>
+					<td>${regd.townCode}</td>
+					<td>${regd.countryCode}</td>
+					<td>${regd.groupName}</td>
+					<td>${regd.zmj}</td>
+					<td>${regd.yba}</td>
+					<td>${regd.kba}</td>
+					<td>${regd.archiveAcreage}</td>
+					<td>${regd.operatorName}</td>
+					<td>${regd.operatorDate}</td>
+				</tr>
+			</c:forEach>
 			</tbody>
 		</table>
 		
@@ -412,7 +428,7 @@ function addLandRegD(){
 	    height: 480,
 	    closed: false,
 	    cache: false,
-	    href: 'geneLandRegDEdit.jsp',
+	    href: '${pageContext.request.contextPath}/geneLandReg/addLand?year=${year}',
 	    modal: true
 	});
 }

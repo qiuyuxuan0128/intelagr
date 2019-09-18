@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.intelagr.mapper.AreaDevisionMapper">
+	<resultMap type="AreaDevision" id="AreaDevisionMap">
+		<id column="id" property="id" />
+		<result column="CityCode" property="cityCode" />
+		<result column="CityName" property="cityName" />
+		<result column="TownCode" property="townCode" />
+		<result column="TownName" property="townName" />
+		<result column="CountryCode" property="countryCode" />
+		<result column="CountryName" property="countryName" />
+	</resultMap>
+	<select id="selectAll" resultMap="AreaDevisionMap">
+		select * from m_peasant
+	</select>
+
+	<select id="selectByMap" resultMap="AreaDevisionMap" parameterType="map">
+		select * from m_areadivision
+		<where>
+			<if test="CityCode!=null and CityCode!=''">
+				and CityCode = #{CityCode}
+			</if>
+			<if test="TownCode!=null and TownCode!=''">
+				and TownCode = #{TownCode}
+			</if>
+			<if test="CountryCode!=null and CountryCode!=''">
+				and CountryCode = #{CountryCode}
+			</if>
+		</where>
+	</select>
+
+</mapper>

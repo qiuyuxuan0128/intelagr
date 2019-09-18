@@ -1,7 +1,7 @@
 package com.oracle.intelagr.entity;
 
 import java.util.Date;
-
+import java.util.List;
 
 
 public class GeneLandRegD extends BaseEntity {
@@ -48,6 +48,9 @@ public class GeneLandRegD extends BaseEntity {
 	private String idName;        //证件类型名称
 	private String contractorTypeName;  //承包方类型名称
 
+	private List<GeneLandDetail> geneLandDetailList;
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -60,6 +63,15 @@ public class GeneLandRegD extends BaseEntity {
 	public void setHid(Integer hid) {
 		this.hid = hid;
 	}
+
+	public List<GeneLandDetail> getGeneLandDetailList() {
+		return geneLandDetailList;
+	}
+
+	public void setGeneLandDetailList(List<GeneLandDetail> geneLandDetailList) {
+		this.geneLandDetailList = geneLandDetailList;
+	}
+
 	public String getContractorType() {
 		return contractorType;
 	}

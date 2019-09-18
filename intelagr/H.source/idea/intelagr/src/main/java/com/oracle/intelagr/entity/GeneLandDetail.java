@@ -24,7 +24,8 @@ public class GeneLandDetail extends BaseEntity {
 	private String groupName;
 	//土地名称
 	private String landName;
-	
+
+
 	//土地类型
 	private String landTypeName;
 	//土地类别

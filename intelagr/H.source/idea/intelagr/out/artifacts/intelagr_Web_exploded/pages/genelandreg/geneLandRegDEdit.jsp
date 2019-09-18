@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="/tags/simple" %>
 <!DOCTYPE html>
 <html style="width:100%;height:100%;overflow:hidden">
 <head>
@@ -43,7 +45,7 @@
 				<tr>
 					<td class="table_common_td_label_style">证件类型：</td>
 					<td class="table_common_td_txt_style editableFalse">
-						
+						<s:select name="IDType" id="idType" entityName="CommonData" value="" codeKey="IDType" hasPleaseSelectOption="true"></s:select>
 						<span class="span_common_mustinput_style">*</span>
 					</td>
 					<td class="table_common_td_label_style">证件号码：</td>
@@ -65,7 +67,7 @@
 				<tr>
 					<td class="table_common_td_label_style">承包方类型：</td>
 					<td class="table_common_td_txt_style">
-						
+						<s:select name="contractorType" id="contractorType" entityName="CommonData" value="" codeKey="contractorType" hasPleaseSelectOption="true" width="100"></s:select>
 					</td>
 					<td class="table_common_td_label_style">承包方：</td>
 					<td class="table_common_td_txt_style">
@@ -352,16 +354,19 @@ function closeEditDialog(){
 	$('#addDialog').dialog('close');
 }
 //确权查询方法
-function expandInfo(){ 
+function expandInfo(){
+
 	//----只根据证件类型和证件号码查询
 	if($("#idType").combobox('getValue')==""){
 		$.messager.alert('警告','请选择证件类型！','warning');
 		return false;
 	}
+
 	if($('#contractorID').val()==""){
 		$.messager.alert('警告','请输入证件号码！','warning');
 		return false;
 	}
+
 	if($("#idType").combobox('getValue')=="01" && $('#contractorID').val()!=""){
 		var strError = checkIdNumber($('#contractorID').val());
 		if(strError.length>1){
@@ -369,16 +374,21 @@ function expandInfo(){
 			return false;
 		}
 	}
+
 	$("#tmp_archiveAcreage").numberbox('setValue','');
 	$("#tmp_operatorName").textbox('setValue','');
+
 	var contractorType = $("#contractorType").combobox('getValue');
 	var contractorId = $("#contractorID").val();
 	var idType = $("#idType").combobox('getValue');
-	showLoading();
+    var year = $("#year").combobox('getValue');
+    alert(year);
+    showLoading();
 	lastQcIdNumber = contractorId;
-	Public.ajaxGet('../api/getContratorInfo?contratorId=' + contractorId + "&contractorIDType=" + idType +"&year=${year}", {}, function(e) {
-		hideLoading();
-		if (0 == e.status) {
+	<%--Public.ajaxGet('../api/getContratorInfo?contratorId=' + contractorId + "&contractorIDType=" + idType +"&year=${year}", {}, function(e) {--%>
+	Public.ajaxPost("/geneLandReg/getContratorInfo", JSON.stringify({"contractorID":contractorId,"idType":idType,"year":year}), function(e){
+	hideLoading();
+		if (200 == e.status) {
 			clearDatasTable();
 			initInterfaceInfo( e.data );
 		} else {
@@ -397,7 +407,7 @@ function expandInfo(){
 			$("#tmp_countryCode").val('');
 			//屯
 			$("#tmp_groupName").textbox('setValue', '');
-			
+
 			//总面积
 			$("#zmj").textbox('setValue', '');
 			//已备案面积
@@ -424,10 +434,10 @@ function initInterfaceInfo( data ){
 	$("#tmp_contractorName").textbox('setValue', contratorInfo.contractorName );
 	//联系方式
 	$("#tmp_contractorTel").textbox('setValue', contratorInfo.contractorTel );
-	var params = {'cityCode': $('#tmp_cityCode').combobox('getValue'), 'townCode':contratorInfo.townCode, 'countryCode':contratorInfo.countryCode};
-	Public.ajaxGet('../areaDevision/getAreaDevisions', params, function(e) {
+	var params = JSON.stringify({/*'cityCode': $('#tmp_cityCode').combobox('getValue'),*/ 'townCode':contratorInfo.townCode, 'countryCode':contratorInfo.countryCode});
+	Public.ajaxPost('/areaDevision/getAreaDevisions', params, function(e) {
 		if (200 == e.status) {
-			 addTownAndCountryOptions(JSON.parse(e.data));
+			 addTownAndCountryOptions(e.data);
 		} else {
 			$.messager.alert('错误','操作失败！' + e.msg, 'error');
 		}
@@ -435,15 +445,9 @@ function initInterfaceInfo( data ){
 	alert(contratorInfo.groupName);
 	//屯
 	$("#tmp_groupName").textbox('setValue', contratorInfo.groupName );
-	//初始化总面积、已备案、可备案面积
-	//总面积
-	$("#zmj").textbox('setValue', numberDecimalDigits(data.zmj,2) );
-	//已备案面积
-	$("#ybamj").textbox('setValue', numberDecimalDigits(data.yba,2) );
-	//可备案面积
-	$("#kbamj").textbox('setValue', numberDecimalDigits(data.kba,2) );
 	
 	//土地列表信息
+	alert(data.contract);
 	var landInfo = data.contract;
 	//alert(data.contract.length);
 	for( var contract in landInfo ){
@@ -467,6 +471,13 @@ function initInterfaceInfo( data ){
 				landName:landlocation
 			});
 	}
+    	//初始化总面积、已备案、可备案面积
+   	 	//总面积
+   		 $("#zmj").textbox('setValue', numberDecimalDigits(data.zmj,2) );
+    	//已备案面积
+   		 $("#ybamj").textbox('setValue', numberDecimalDigits(data.yba,2) );
+    	//可备案面积
+   		 $("#kbamj").textbox('setValue', numberDecimalDigits(data.kba,2) );
 }
 	function check(){
 		if($("#idType").combobox('getValue')==""){
@@ -530,23 +541,23 @@ function initInterfaceInfo( data ){
 	
 	function addTownAndCountryOptions(obj){
 		$('#tmp_townCodeView').combobox({
-			valueField:'id',
-			textField:'text',
+			valueField:'townCode',
+			textField:'townName',
 			onChange:function(){return false;}
 		});
 		$('#tmp_countryCodeView').combobox({
-			valueField:'id',
-			textField:'text',
+			valueField:'countryCode',
+			textField:'countryName',
 			onChange:function(){return false;}
 		});
 		$('#tmp_townCodeView').combobox('clear');
 		$('#tmp_countryCodeView').combobox('clear');
-		$('#tmp_townCodeView').combobox('loadData',[{'id':obj[0].id,'text': obj[0].text}]);
-		$('#tmp_countryCodeView').combobox('loadData',[{'id':obj[1].id,'text': obj[1].text}]);
-		$('#tmp_townCodeView').combobox('setValue',obj[0].id);
-		$('#tmp_countryCodeView').combobox('setValue',obj[1].id);
-		$('#tmp_townCode').val(obj[0].id);
-		$('#tmp_countryCode').val(obj[1].id);
+		$('#tmp_townCodeView').combobox('loadData',[{'townCode':obj.townCode,'townName': obj.townName}]);
+		$('#tmp_countryCodeView').combobox('loadData',[{'countryCode':obj.countryCode,'countryName': obj.countryName}]);
+		$('#tmp_townCodeView').combobox('setValue',obj.townCode);
+		$('#tmp_countryCodeView').combobox('setValue',obj.countryCode);
+		$('#tmp_townCode').val(obj.townCode);
+		$('#tmp_countryCode').val(obj.countryCode);
 	}
 	
 	function setEasyUISelectReadOnly(selectId){

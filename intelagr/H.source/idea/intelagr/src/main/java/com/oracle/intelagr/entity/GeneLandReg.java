@@ -1,6 +1,7 @@
 package com.oracle.intelagr.entity;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class GeneLandReg extends BaseEntity {
@@ -23,6 +24,16 @@ public class GeneLandReg extends BaseEntity {
 	private String reason;
 	
 	private Float mjsum;
+
+	private List<GeneLandRegD> geneLandRegDlist;
+
+	public List<GeneLandRegD> getGeneLandRegDlist() {
+		return geneLandRegDlist;
+	}
+
+	public void setGeneLandRegDlist(List<GeneLandRegD> geneLandRegDlist) {
+		this.geneLandRegDlist = geneLandRegDlist;
+	}
 
 	public Integer getId() {
 		return id;
